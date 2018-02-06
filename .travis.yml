@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+- '8'
+- '6'
+cache: yarn
+env:
+  global:
+    secure: XEu++JnrdmcpmpNlNOv6hi8SOJyue/fxEwOk3XholYTqvc4pAIcrVgc1d1LYBt5aHeUqJKz6ddpVFN12KG7zR16bQNQTcpdjhlEv97evXDKi1fUMglcODqJJE64E3wpOguaSteJSSErfP3kf6WhERaOM4B/rMvZ0vZ1enwsOZghsWCq14I17qIYUC3h0fSmpH0nSpAoYTVU1giqo4AUZ+YQR7XLQvrJjYcncZuAeT9BJsuveFYFqgGw03aHVXNqAlIIhV4S5PK7Hwa7S9lBdSvkQKRQqYOm6Kq/nzhhSmvBHsXrdQ03lThfb3wtwF0P/kkIPXTL82v/ggcWWkTjB3k+Ak+e+AEiXtJPhbKmMNnc4XminhnCitQUUvR7U5lk8lJFAnzOleoFGhu//t60hdrTABOmfiSuHo5NPDMpHjb8SlYx4dmXfbJmcJDJtkW/UknfHikF37BQA8wc5ywm+mdpSmNG47ZzPMvKqvc2VWuMbUJGrSutB41TfgfAD3fI66x0U/eg9Uv1ImquO6g4C+zfqJvGoEul/SSLuWvBpyDObOwoaawcfyH5ka1+xsxlpGdCisJTCu4ilhQ0emr2Sdg43SLIQsTO+EqDcyUsF4W1Gfjj+1lWCeOlkjqSeoQoxSHBLLaH+zwtKRkl/AU9FQJ0eKOnBmTNghkLcedhgX4w=
+before_install: yarn global add greenkeeper-lockfile@1
+before_script: greenkeeper-lockfile-update
+script:
+- npm run ci
+after_script: greenkeeper-lockfile-upload
+deploy:
+  provider: npm
+  skip_cleanup: true
+  email: marcus.mennemeier@actano.de
+  api_key:
+    secure: 0Be3zndZNwBrPWza6r1KBcCnJ3RAkdfvumTygjMK0CGIyqIh4vIQs/Nebg/BgsqgfVRtg0wDhrHqk+Y961zgB0jtsK4w2tRjcdj7qe4QPEQdQtgC3wRRIfCXTpWeP0tVe/h8Uljk3e5ZQ4WmUQ0P31au+IUyo0nUPitgbeeMqxlf9UG1Lq/heghSAMvAj+kvsuZRWvRCBtIs3x84DUZ4I59UOQOMhzhASH0bjXFi2eHzInjwNzf2n+dn5aL6WzBxeY/GDh+VOV3bT+FowS/vu4jG8kskt+63oGfJv0X95jg47WZ8dTQ8o42N6gyrXhzFnAWr0x3W9Prs33s6gVsGCcv8378YMHPZgDJjO9+m+7vvrGi6lwWzFusrxcHOwndYTQzX531KgiGckg5xLZCll0laYnd07zLGVEPej9sKFCUCZ6a01Oo3TZInJ6fGkcMaJ/kD7ZQKUp3CMS6G4UAtW6eW5P+F1+ToL5z/Wa3xaNibITOrfY9ZzWizTYqa4egqfct6b2xwXCVXT3jl/TtvK99uX5p2bmroPM6Q8lWTMw7EGt7LoUNCsj+vqSXWH1UCiCypTH6Yo1uGnJVXQoylWQEcvXcZ33aIj8eEKISyTyRL88tGsmtox9Il0nfzl6nQB7vhr4pl5EeM8OjJyCkDysowToh7UutJNQ96jkA7lGg=
+  on:
+    tags: true
+    repo: actano/borders-smtp-client
+    node: '8'

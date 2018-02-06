@@ -1,0 +1,42 @@
+{
+  "name": "borders-rest-client",
+  "version": "1.0.0",
+  "description": "Specification for system border rest-client",
+  "author": "Actano GmbH (https://rplan.com/)",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/actano/borders-rest-client.git"
+  },
+  "files": [
+    "src",
+    "lib",
+    "spec.js"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm run clean && npm run ci && babel src --out-dir lib",
+    "ci": "npm run lint && npm test",
+    "test": "mocha",
+    "lint": "eslint src test",
+    "clean": "rm -rf lib"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-async-generator-functions": "^6.24.1",
+    "babel-preset-env": "^1.4.0",
+    "babel-register": "^6.24.1",
+    "chai": "^4.0.2",
+    "eslint": "^4.3.0",
+    "eslint-config-actano-base": "^2.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "mocha": "^4.0.0",
+    "sinon": "^4.0.0",
+    "sinon-chai": "^2.14.0"
+  },
+  "dependencies": {
+    "borders": "^1.3.0"
+  }
+}
