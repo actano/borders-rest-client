@@ -19,77 +19,75 @@ const execute = generatorFunction => () => {
 describe('borders-rest-client/stub-backend', () => {
   testRestClient(stubBackend)
 
-  context('...', () => {
-    it('should stub response for a get request', execute(function* test() {
-      yield stubCall(
-        'get',
+  it('should stub response for a get request', execute(function* test() {
+    yield stubCall(
+      'get',
+      {
+        path: '/some/path/entity',
+      },
+      {
+        body: 'stubbed response 1',
+        status: 200,
+      },
+    )
+
+    yield stubCall(
+      'get',
+      {
+        path: '/some/another-path/entity',
+      },
+      {
+        body: 'stubbed response 2',
+        status: 200,
+      },
+    )
+
+    // yield stubCall(
+    //   'put',
+    //   {
+    //     path: '/some/path/entity',
+    //   },
+    //   {
+    //     body: 'stubbed response 1',
+    //     status: 200,
+    //   },
+    // )
+
+    expect(
+      yield get(
         {
           path: '/some/path/entity',
+          header: {
+            headerParam1: 23,
+          },
+          params: {
+            param1: 42,
+          },
         },
-        {
-          body: 'stubbed response 1',
-          status: 200,
-        },
-      )
-
-      yield stubCall(
-        'get',
+      ),
+    ).to.deep.equal(
+      {
+        body: 'stubbed response 1',
+        status: 200,
+      },
+    )
+    expect(
+      yield get(
         {
           path: '/some/another-path/entity',
-        },
-        {
-          body: 'stubbed response 2',
-          status: 200,
-        },
-      )
-
-      // yield stubCall(
-      //   'put',
-      //   {
-      //     path: '/some/path/entity',
-      //   },
-      //   {
-      //     body: 'stubbed response 1',
-      //     status: 200,
-      //   },
-      // )
-
-      expect(
-        yield get(
-          {
-            path: '/some/path/entity',
-            header: {
-              headerParam1: 23,
-            },
-            params: {
-              param1: 42,
-            },
+          header: {
+            headerParam1: 23,
           },
-        ),
-      ).to.deep.equal(
-        {
-          body: 'stubbed response 1',
-          status: 200,
-        },
-      )
-      expect(
-        yield get(
-          {
-            path: '/some/another-path/entity',
-            header: {
-              headerParam1: 23,
-            },
-            params: {
-              param1: 42,
-            },
+          params: {
+            param1: 42,
           },
-        ),
-      ).to.deep.equal(
-        {
-          body: 'stubbed response 2',
-          status: 200,
         },
-      )
-    }))
-  })
+      ),
+    ).to.deep.equal(
+      {
+        body: 'stubbed response 2',
+        status: 200,
+      },
+    )
+  }))
 })
