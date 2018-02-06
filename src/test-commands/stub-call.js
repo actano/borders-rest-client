@@ -10,5 +10,4 @@ export default commandWithStackFrame((method, request, response) =>
       request,
       response,
     },
-  }),
-)
+  }))

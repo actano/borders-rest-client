@@ -8,5 +8,4 @@ export default commandWithStackFrame(request =>
     payload: {
       request,
     },
-  }),
-)
+  }))

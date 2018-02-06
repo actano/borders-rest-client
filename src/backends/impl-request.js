@@ -7,13 +7,11 @@ export default () => {
   const backend = {
     async [GET]({ request }) {
       try {
-        return await client(
-          {
-            method: 'GET',
-            uri: request.path,
-            json: true,
-          },
-        )
+        return await client({
+          method: 'GET',
+          uri: request.path,
+          json: true,
+        })
       } catch (e) {
         throw new RestError(e)
       }

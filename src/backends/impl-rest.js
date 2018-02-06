@@ -23,12 +23,10 @@ export default () => {
 
   const backend = {
     async [GET]({ request }) {
-      const { entity } = await client(
-        {
-          method: 'GET',
-          path: request.path,
-        },
-      )
+      const { entity } = await client({
+        method: 'GET',
+        path: request.path,
+      })
       return entity
     },
   }

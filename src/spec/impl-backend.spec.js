@@ -25,17 +25,11 @@ export default (createBackend) => {
       .get('/some/path/entity')
       .reply(200, { someReturnValue: 42 })
 
-    expect(
-      yield get(
-        {
-          path: 'http://server.com/some/path/entity',
-        },
-      ),
-    ).to.deep.equal(
-      {
-        someReturnValue: 42,
-      },
-    )
+    expect(yield get({
+      path: 'http://server.com/some/path/entity',
+    })).to.deep.equal({
+      someReturnValue: 42,
+    })
 
     mock.done()
   }))
@@ -46,11 +40,9 @@ export default (createBackend) => {
       .reply(500)
 
     try {
-      yield get(
-        {
-          path: 'http://server.com/some/path/entity',
-        },
-      )
+      yield get({
+        path: 'http://server.com/some/path/entity',
+      })
     } catch (e) {
       expect(e, e.toString()).to.be.instanceOf(RestError)
       return
