@@ -1,17 +1,22 @@
 import client from 'request-promise'
 
 import { GET } from '../../src/commands/get'
+import RestError from '../error/rest-error'
 
 export default () => {
   const backend = {
     async [GET]({ request }) {
-      return await client(
-        {
-          method: 'GET',
-          uri: request.path,
-          json: true,
-        },
-      )
+      try {
+        return await client(
+            {
+              method: 'GET',
+              uri: request.path,
+              json: true,
+            },
+        )
+      } catch (e) {
+        throw new RestError(e)
+      }
     },
   }
 
