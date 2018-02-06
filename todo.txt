@@ -1,0 +1,10 @@
+- error handling
+- authentication
+
+- parameter
+- more methods/commands
+- greenkeeper
+- header
+- cookies
+- redirects?!
+- travis
