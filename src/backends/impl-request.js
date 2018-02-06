@@ -8,11 +8,11 @@ export default () => {
     async [GET]({ request }) {
       try {
         return await client(
-            {
-              method: 'GET',
-              uri: request.path,
-              json: true,
-            },
+          {
+            method: 'GET',
+            uri: request.path,
+            json: true,
+          },
         )
       } catch (e) {
         throw new RestError(e)

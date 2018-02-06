@@ -17,9 +17,9 @@ const responseToError = interceptor({
 
 export default () => {
   const client = rest
-      .wrap(mime, { mime: 'application/json', accept: 'application/json' })
-      .wrap(errorCode)
-      .wrap(responseToError)
+    .wrap(mime, { mime: 'application/json', accept: 'application/json' })
+    .wrap(errorCode)
+    .wrap(responseToError)
 
   const backend = {
     async [GET]({ request }) {

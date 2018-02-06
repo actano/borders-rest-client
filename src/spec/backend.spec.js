@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-env mocha */
 import chai from 'chai'
 import sinon from 'sinon'

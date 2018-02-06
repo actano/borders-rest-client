@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 import Context from 'borders'
 import chai from 'chai'
 import nock from 'nock'
@@ -5,7 +6,7 @@ import nock from 'nock'
 import { get } from '../commands'
 import RestError from '../error/rest-error'
 
-const { expect } = chai
+const { expect, AssertionError } = chai
 
 export default (createBackend) => {
   let backend
@@ -46,9 +47,9 @@ export default (createBackend) => {
 
     try {
       yield get(
-          {
-            path: 'http://server.com/some/path/entity',
-          },
+        {
+          path: 'http://server.com/some/path/entity',
+        },
       )
     } catch (e) {
       expect(e, e.toString()).to.be.instanceOf(RestError)

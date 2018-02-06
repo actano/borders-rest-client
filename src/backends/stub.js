@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import sinon from 'sinon'
 
 import { GET } from '../../src/commands/get'
@@ -7,7 +8,7 @@ export default () => {
   const getStub = sinon.stub()
 
   const backend = {
-    async [STUB_CALL]({ method, request, response }) {
+    async [STUB_CALL]({ request, response }) {
       getStub
         .withArgs(sinon.match(request)).returns(response)
     },
