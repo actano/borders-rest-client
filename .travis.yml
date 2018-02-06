@@ -19,5 +19,5 @@ deploy:
     secure: 0Be3zndZNwBrPWza6r1KBcCnJ3RAkdfvumTygjMK0CGIyqIh4vIQs/Nebg/BgsqgfVRtg0wDhrHqk+Y961zgB0jtsK4w2tRjcdj7qe4QPEQdQtgC3wRRIfCXTpWeP0tVe/h8Uljk3e5ZQ4WmUQ0P31au+IUyo0nUPitgbeeMqxlf9UG1Lq/heghSAMvAj+kvsuZRWvRCBtIs3x84DUZ4I59UOQOMhzhASH0bjXFi2eHzInjwNzf2n+dn5aL6WzBxeY/GDh+VOV3bT+FowS/vu4jG8kskt+63oGfJv0X95jg47WZ8dTQ8o42N6gyrXhzFnAWr0x3W9Prs33s6gVsGCcv8378YMHPZgDJjO9+m+7vvrGi6lwWzFusrxcHOwndYTQzX531KgiGckg5xLZCll0laYnd07zLGVEPej9sKFCUCZ6a01Oo3TZInJ6fGkcMaJ/kD7ZQKUp3CMS6G4UAtW6eW5P+F1+ToL5z/Wa3xaNibITOrfY9ZzWizTYqa4egqfct6b2xwXCVXT3jl/TtvK99uX5p2bmroPM6Q8lWTMw7EGt7LoUNCsj+vqSXWH1UCiCypTH6Yo1uGnJVXQoylWQEcvXcZ33aIj8eEKISyTyRL88tGsmtox9Il0nfzl6nQB7vhr4pl5EeM8OjJyCkDysowToh7UutJNQ96jkA7lGg=
   on:
     tags: true
-    repo: actano/borders-smtp-client
+    repo: actano/borders-rest-client
     node: '8'
