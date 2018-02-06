@@ -6,4 +6,3 @@
 - header
 - cookies
 - redirects?!
-- travis
