@@ -2,7 +2,7 @@ import Context from 'borders'
 import chai from 'chai'
 
 import stubBackend from '../src/backends/stub'
-import testRestClient from '../src/spec'
+import testBackend from '../src/spec/backend.spec'
 
 import { get } from '../src/commands'
 import stubCall from '../src/test-commands/stub-call'
@@ -17,7 +17,7 @@ const execute = generatorFunction => () => {
 }
 
 describe('borders-rest-client/stub-backend', () => {
-  testRestClient(stubBackend)
+  testBackend(stubBackend)
 
   it('should stub response for a get request', execute(function* test() {
     yield stubCall(

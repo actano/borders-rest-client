@@ -22,8 +22,8 @@ export default (createBackend) => {
 
   beforeEach(() => {
     backend = createBackend()
-      sandbox = sinon.sandbox.create()
-      sandbox.stub(backend, GET)
+    sandbox = sinon.sandbox.create()
+    sandbox.stub(backend, GET)
   })
 
   afterEach(() => {
@@ -32,6 +32,17 @@ export default (createBackend) => {
 
   it('should handle "GET" command', execute(function* test() {
     yield get({
+      path: '/some/path/entity',
+      header: {
+        headerParam1: 23,
+      },
+      params: {
+        param1: 42,
+      },
+    })
+
+    expect(backend[GET]).to.have.been.calledWith({
+      request: {
         path: '/some/path/entity',
         header: {
           headerParam1: 23,
@@ -39,18 +50,7 @@ export default (createBackend) => {
         params: {
           param1: 42,
         },
-    })
-
-    expect(backend[GET]).to.have.been.calledWith({
-        request: {
-            path: '/some/path/entity',
-            header: {
-                headerParam1: 23,
-            },
-            params: {
-                param1: 42,
-            },
-        }
+      },
     })
   }))
 }
