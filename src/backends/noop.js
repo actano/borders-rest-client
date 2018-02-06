@@ -1,4 +1,4 @@
-import { GET } from '../../src/commands/get'
+import { GET } from '../commands/get'
 
 export default () => {
   const backend = {

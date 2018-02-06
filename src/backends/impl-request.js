@@ -1,6 +1,6 @@
 import client from 'request-promise'
 
-import { GET } from '../../src/commands/get'
+import { GET } from '../commands/get'
 import RestError from '../error/rest-error'
 
 export default () => {

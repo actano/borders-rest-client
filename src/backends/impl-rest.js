@@ -3,7 +3,7 @@ import interceptor from 'rest/interceptor'
 import errorCode from 'rest/interceptor/errorCode'
 import mime from 'rest/interceptor/mime'
 
-import { GET } from '../../src/commands/get'
+import { GET } from '../commands/get'
 import RestError from '../error/rest-error'
 
 const responseToError = interceptor({

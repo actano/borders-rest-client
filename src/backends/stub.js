@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import sinon from 'sinon'
 
-import { GET } from '../../src/commands/get'
+import { GET } from '../commands/get'
 import { STUB_CALL } from '../test-commands/stub-call'
 
 export default () => {
