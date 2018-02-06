@@ -1020,15 +1020,15 @@ escape-string-regexp@1.0.5, escape-string-regexp@^1.0.2, escape-string-regexp@^1
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
-eslint-config-actano-base@^2.1.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-actano-base/-/eslint-config-actano-base-2.3.0.tgz#114f040d5ea5c4dd30d9a4c2757ba83f73a08340"
+eslint-config-actano-base@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-actano-base/-/eslint-config-actano-base-3.0.0.tgz#b56b33d60160ca1999f6a8bb20778e2f13482481"
   dependencies:
-    eslint-config-airbnb-base "^11.3.1"
+    eslint-config-airbnb-base "^12.1.0"
 
-eslint-config-airbnb-base@^11.3.1:
-  version "11.3.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-base/-/eslint-config-airbnb-base-11.3.2.tgz#8703b11abe3c88ac7ec2b745b7fdf52e00ae680a"
+eslint-config-airbnb-base@^12.1.0:
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-base/-/eslint-config-airbnb-base-12.1.0.tgz#386441e54a12ccd957b0a92564a4bafebd747944"
   dependencies:
     eslint-restricted-globals "^0.1.1"
 
@@ -1866,9 +1866,9 @@ mkdirp@0.5.1, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-mocha@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/mocha/-/mocha-4.1.0.tgz#7d86cfbcf35cb829e2754c32e17355ec05338794"
+mocha@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/mocha/-/mocha-5.0.0.tgz#cccac988b0bc5477119cba0e43de7af6d6ad8f4e"
   dependencies:
     browser-stdout "1.3.0"
     commander "2.11.0"
