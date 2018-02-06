@@ -3,7 +3,6 @@
 
 - parameter
 - more methods/commands
-- greenkeeper
 - header
 - cookies
 - redirects?!
