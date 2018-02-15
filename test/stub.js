@@ -88,6 +88,83 @@ describe('borders-rest-client/stub-backend', () => {
     })
   }))
 
+  context('encodings', () => {
+    it('should match request body with urlencoding', execute(function* test() {
+      yield stubCall(
+        'post',
+        {
+          path: '/some/path/entity',
+        },
+        {
+          body: 'stubbed response 1',
+          status: 200,
+        },
+      )
+      yield stubCall(
+        'post',
+        {
+          path: '/some/path/entity',
+          bodyUrlencoded: {
+            param1: 'value1',
+            param2: 'value2',
+          },
+        },
+        {
+          body: 'stubbed response 2',
+          status: 200,
+        },
+      )
+
+      expect(yield post({
+        path: '/some/path/entity',
+        bodyUrlencoded: {
+          param1: 'value1',
+          param2: 'value2',
+        },
+      })).to.deep.equal({
+        body: 'stubbed response 2',
+        status: 200,
+      })
+    }))
+    it('should match request body with json encoding', execute(function* test() {
+      yield stubCall(
+        'post',
+        {
+          path: '/some/path/entity',
+        },
+        {
+          body: 'stubbed response 1',
+          status: 200,
+        },
+      )
+      yield stubCall(
+        'post',
+        {
+          path: '/some/path/entity',
+          bodyJson: {
+            param1: 'value1',
+            param2: 'value2',
+          },
+        },
+        {
+          body: 'stubbed response 2',
+          status: 200,
+        },
+      )
+
+      expect(yield post({
+        path: '/some/path/entity',
+        bodyJson: {
+          param1: 'value1',
+          param2: 'value2',
+        },
+      })).to.deep.equal({
+        body: 'stubbed response 2',
+        status: 200,
+      })
+    }))
+  })
+
   context('headers', () => {
     it('should match given header fields', execute(function* test() {
       yield stubCall(
