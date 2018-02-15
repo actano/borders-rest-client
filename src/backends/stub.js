@@ -41,12 +41,11 @@ export default () => {
     })).returns(response)
   }
 
-  const getStubbedResponse = (method, request) => {
-    return stub({
+  const getStubbedResponse = (method, request) =>
+    stub({
       method: method.toLowerCase(),
       ...request,
     })
-  }
 
   const backend = {
     async [STUB_CALL]({ method, request, response }) {
