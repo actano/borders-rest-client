@@ -1,5 +1,6 @@
 import Context from 'borders'
 import chai from 'chai'
+import sinon from 'sinon'
 
 import stubBackend from '../src/backends/stub'
 import testBackend from '../src/spec/backend.spec'
@@ -66,4 +67,43 @@ describe('borders-rest-client/stub-backend', () => {
       status: 200,
     })
   }))
+
+  context('headers', () => {
+    it('should match given header fields', execute(function* test() {
+      yield stubCall(
+        'get',
+        {
+          path: 'http://server.com/some/path/entity',
+        },
+        {
+          body: 'stubbed response 1',
+          status: 200,
+        },
+      )
+
+      yield stubCall(
+        'get',
+        {
+          path: 'http://server.com/some/path/entity',
+          headers: {
+            someHeaderField: sinon.match.string,
+          },
+        },
+        {
+          body: 'stubbed response 2',
+          status: 200,
+        },
+      )
+
+      expect(yield get({
+        path: 'http://server.com/some/path/entity',
+        headers: {
+          someHeaderField: 'someHeaderValue',
+        },
+      })).to.deep.equal({
+        body: 'stubbed response 2',
+        status: 200,
+      })
+    }))
+  })
 })
