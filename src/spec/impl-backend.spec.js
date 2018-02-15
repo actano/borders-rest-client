@@ -4,7 +4,7 @@ import chai from 'chai'
 import nock from 'nock'
 import querystring from 'querystring'
 
-import { get, post } from '../commands'
+import { del, get, post } from '../commands'
 import RestError from '../error/rest-error'
 
 const { expect, AssertionError } = chai
@@ -44,6 +44,18 @@ export default (createBackend) => {
       path: 'http://server.com/some/path/entity',
     })).to.deep.equal({
       someReturnValue: 42,
+    })
+
+    mock.done()
+  }))
+
+  it('should perform a delete request', execute(function* test() {
+    const mock = nock('http://server.com')
+      .delete('/some/path/entity')
+      .reply(204)
+
+    yield del({
+      path: 'http://server.com/some/path/entity',
     })
 
     mock.done()

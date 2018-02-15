@@ -1,7 +1,8 @@
 import client from 'request-promise'
 
 import RestError from '../error/rest-error'
-import { POST } from '../commands'
+import { POST } from '../commands/post'
+import { DELETE } from '../commands/delete'
 import { GET } from '../commands/get'
 
 async function performRequest(method, request) {
@@ -27,6 +28,9 @@ export default () => {
     },
     async [POST]({ request }) {
       return performRequest('POST', request)
+    },
+    async [DELETE]({ request }) {
+      return performRequest('DELETE', request)
     },
   }
 
