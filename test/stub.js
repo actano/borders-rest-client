@@ -16,6 +16,16 @@ const execute = generatorFunction => () => {
   return context.execute(generatorFunction())
 }
 
+function* expectThrow(generatorFunc, errorMessage) {
+  try {
+    yield* generatorFunc()
+  } catch (e) {
+    expect(e.message).to.equal(errorMessage)
+    return
+  }
+  expect.fail(null, errorMessage, 'Should throw an error')
+}
+
 describe('borders-rest-client/stub-backend', () => {
   testBackend(stubBackend)
 
@@ -253,6 +263,54 @@ describe('borders-rest-client/stub-backend', () => {
         body: 'stubbed response 2',
         status: 200,
       })
+    }))
+  })
+
+  context('response format', () => {
+    it('should not throw an error for valid response object', execute(function* test() {
+      yield stubCall(
+        'get',
+        {
+          path: '/some/path/entity',
+        },
+        {
+          body: 'stubbed response 1',
+          status: 200,
+          headers: {
+            param1: 'value1',
+          },
+        },
+      )
+    }))
+    it('should throw an error for mixed-case header', execute(function* test() {
+      yield* expectThrow(function* () {
+        yield stubCall(
+          'get',
+          {
+            path: '/some/path/entity',
+          },
+          {
+            body: 'stubbed response 1',
+            status: 200,
+            headers: {
+              Param1: 'value1',
+            },
+          },
+        )
+      }, 'The header "Param1" should be lower case')
+    }))
+    it('should throw an error for invalid properties in the response', execute(function* test() {
+      yield* expectThrow(function* () {
+        yield stubCall(
+          'get',
+          {
+            path: '/some/path/entity',
+          },
+          {
+            someProperty: 'some value',
+          },
+        )
+      }, 'The response property "someProperty" is not supported')
     }))
   })
 })
