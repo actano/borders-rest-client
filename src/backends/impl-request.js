@@ -11,6 +11,7 @@ export default () => {
           method: 'GET',
           uri: request.path,
           headers: request.headers,
+          qs: request.query,
           json: true,
         })
       } catch (e) {

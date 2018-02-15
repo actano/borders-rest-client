@@ -69,5 +69,26 @@ export default (createBackend) => {
       mock.done()
     }))
   })
+  context('query parameters', () => {
+    it('should send specified parameters fields', execute(function* test() {
+      const mock = nock('http://server.com')
+        .get('/some/path/entity')
+        .query({
+          param1: 'value1',
+          param2: 'value2',
+        })
+        .reply(200)
+
+      yield get({
+        path: 'http://server.com/some/path/entity',
+        query: {
+          param1: 'value1',
+          param2: 'value2',
+        },
+      })
+
+      mock.done()
+    }))
+  })
 }
 
