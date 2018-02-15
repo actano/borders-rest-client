@@ -5,7 +5,7 @@ import sinon from 'sinon'
 import stubBackend from '../src/backends/stub'
 import testBackend from '../src/spec/backend.spec'
 
-import { get, post } from '../src/commands'
+import { get, post, del } from '../src/commands'
 import stubCall from '../src/test-commands/stub-call'
 
 chai.config.truncateThreshold = 0
@@ -85,6 +85,24 @@ describe('borders-rest-client/stub-backend', () => {
     })).to.deep.equal({
       body: 'stubbed response 1',
       status: 200,
+    })
+  }))
+
+  it('should stub response for a delete request', execute(function* test() {
+    yield stubCall(
+      'delete',
+      {
+        path: '/some/path/entity',
+      },
+      {
+        status: 204,
+      },
+    )
+
+    expect(yield del({
+      path: '/some/path/entity',
+    })).to.deep.equal({
+      status: 204,
     })
   }))
 

@@ -3,6 +3,7 @@ import sinon from 'sinon'
 
 import { GET } from '../commands/get'
 import { POST } from '../commands/post'
+import { DELETE } from '../commands/delete'
 import { STUB_CALL } from '../test-commands/stub-call'
 
 export default () => {
@@ -31,6 +32,9 @@ export default () => {
     },
     async [POST]({ request }) {
       return getStubbedResponse('post', request)
+    },
+    async [DELETE]({ request }) {
+      return getStubbedResponse('delete', request)
     },
   }
 
