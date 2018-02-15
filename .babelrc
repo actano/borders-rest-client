@@ -1,7 +1,8 @@
 {
   "plugins": [
     "add-module-exports",
-    "transform-async-generator-functions"
+    "transform-async-generator-functions",
+    "transform-object-rest-spread"
   ],
   "presets": [
     ["env", {
