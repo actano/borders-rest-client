@@ -1,11 +1,14 @@
 /* eslint-env mocha */
 import Context from 'borders'
 import chai from 'chai'
+import chaiSubset from 'chai-subset'
 import nock from 'nock'
 import querystring from 'querystring'
 
 import { del, get, post } from '../commands'
 import RestError from '../error/rest-error'
+
+chai.use(chaiSubset)
 
 const { expect, AssertionError } = chai
 
@@ -28,8 +31,8 @@ export default (createBackend) => {
 
     expect(yield get({
       path: 'http://server.com/some/path/entity',
-    })).to.deep.equal({
-      someReturnValue: 42,
+    })).containSubset({
+      body: { someReturnValue: 42 },
     })
 
     mock.done()
@@ -42,8 +45,8 @@ export default (createBackend) => {
 
     expect(yield post({
       path: 'http://server.com/some/path/entity',
-    })).to.deep.equal({
-      someReturnValue: 42,
+    })).containSubset({
+      body: { someReturnValue: 42 },
     })
 
     mock.done()
@@ -61,6 +64,31 @@ export default (createBackend) => {
     mock.done()
   }))
 
+  context('response', () => {
+    it('should return status, headers and response body', execute(function* test() {
+      const mock = nock('http://server.com')
+        .get('/some/path/entity')
+        .reply(200, { someReturnValue: 42 }, {
+          headerParam1: 'headerValue1',
+        })
+
+      expect(yield get({
+        path: 'http://server.com/some/path/entity',
+      })).to.containSubset({
+        status: 200,
+        headers: {
+          // header keys will converted to lower case
+          headerparam1: 'headerValue1',
+        },
+        body: {
+          someReturnValue: 42,
+        },
+      })
+
+      mock.done()
+    }))
+  })
+
   context('encodings', () => {
     it('should send a body with urlencoding', execute(function* test() {
       const mock = nock('http://server.com')
@@ -76,8 +104,8 @@ export default (createBackend) => {
           param1: 'value1',
           param2: 'value2',
         },
-      })).to.deep.equal({
-        someReturnValue: 42,
+      })).containSubset({
+        body: { someReturnValue: 42 },
       })
 
       mock.done()
@@ -96,8 +124,8 @@ export default (createBackend) => {
           param1: 'value1',
           param2: 'value2',
         },
-      })).to.deep.equal({
-        someReturnValue: 42,
+      })).containSubset({
+        body: { someReturnValue: 42 },
       })
 
       mock.done()

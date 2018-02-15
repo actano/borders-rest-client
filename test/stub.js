@@ -44,11 +44,8 @@ describe('borders-rest-client/stub-backend', () => {
 
     expect(yield get({
       path: '/some/path/entity',
-      header: {
+      headers: {
         headerParam1: 23,
-      },
-      params: {
-        param1: 42,
       },
     })).to.deep.equal({
       body: 'stubbed response 1',
@@ -56,11 +53,8 @@ describe('borders-rest-client/stub-backend', () => {
     })
     expect(yield get({
       path: '/some/another-path/entity',
-      header: {
+      headers: {
         headerParam1: 23,
-      },
-      params: {
-        param1: 42,
       },
     })).to.deep.equal({
       body: 'stubbed response 2',

@@ -7,7 +7,7 @@ import { GET } from '../commands/get'
 
 async function performRequest(method, request) {
   try {
-    return await client({
+    const response = await client({
       method,
       uri: request.path,
       headers: request.headers,
@@ -15,7 +15,14 @@ async function performRequest(method, request) {
       body: request.bodyJson,
       qs: request.query,
       json: true,
+      resolveWithFullResponse: true,
     })
+
+    return {
+      body: response.body,
+      status: response.statusCode,
+      headers: response.headers,
+    }
   } catch (e) {
     throw new RestError(e)
   }
