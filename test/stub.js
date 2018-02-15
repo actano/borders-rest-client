@@ -7,7 +7,6 @@ import testBackend from '../src/spec/backend.spec'
 import { get } from '../src/commands'
 import stubCall from '../src/test-commands/stub-call'
 
-
 chai.config.truncateThreshold = 0
 const { expect } = chai
 
@@ -41,17 +40,6 @@ describe('borders-rest-client/stub-backend', () => {
         status: 200,
       },
     )
-
-    // yield stubCall(
-    //   'put',
-    //   {
-    //     path: '/some/path/entity',
-    //   },
-    //   {
-    //     body: 'stubbed response 1',
-    //     status: 200,
-    //   },
-    // )
 
     expect(yield get({
       path: '/some/path/entity',
