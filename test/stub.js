@@ -106,4 +106,44 @@ describe('borders-rest-client/stub-backend', () => {
       })
     }))
   })
+  context('query parameters', () => {
+    it('should match given query parameters', execute(function* test() {
+      yield stubCall(
+        'get',
+        {
+          path: 'http://server.com/some/path/entity',
+        },
+        {
+          body: 'stubbed response 1',
+          status: 200,
+        },
+      )
+
+      yield stubCall(
+        'get',
+        {
+          path: 'http://server.com/some/path/entity',
+          query: {
+            param1: 'value1',
+            param2: 'value2',
+          },
+        },
+        {
+          body: 'stubbed response 2',
+          status: 200,
+        },
+      )
+
+      expect(yield get({
+        path: 'http://server.com/some/path/entity',
+        query: {
+          param1: 'value1',
+          param2: 'value2',
+        },
+      })).to.deep.equal({
+        body: 'stubbed response 2',
+        status: 200,
+      })
+    }))
+  })
 })
