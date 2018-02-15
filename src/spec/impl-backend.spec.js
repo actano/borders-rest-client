@@ -2,8 +2,9 @@
 import Context from 'borders'
 import chai from 'chai'
 import nock from 'nock'
+import querystring from 'querystring'
 
-import { get } from '../commands'
+import { get, post } from '../commands'
 import RestError from '../error/rest-error'
 
 const { expect, AssertionError } = chai
@@ -33,6 +34,63 @@ export default (createBackend) => {
 
     mock.done()
   }))
+
+  it('should perform a post request', execute(function* test() {
+    const mock = nock('http://server.com')
+      .post('/some/path/entity')
+      .reply(200, { someReturnValue: 42 })
+
+    expect(yield post({
+      path: 'http://server.com/some/path/entity',
+    })).to.deep.equal({
+      someReturnValue: 42,
+    })
+
+    mock.done()
+  }))
+
+  context('encodings', () => {
+    it('should send a body with urlencoding', execute(function* test() {
+      const mock = nock('http://server.com')
+        .post('/some/path/entity', querystring.stringify({
+          param1: 'value1',
+          param2: 'value2',
+        }))
+        .reply(200, { someReturnValue: 42 })
+
+      expect(yield post({
+        path: 'http://server.com/some/path/entity',
+        bodyUrlencoded: {
+          param1: 'value1',
+          param2: 'value2',
+        },
+      })).to.deep.equal({
+        someReturnValue: 42,
+      })
+
+      mock.done()
+    }))
+    it('should send a body with json encoding', execute(function* test() {
+      const mock = nock('http://server.com')
+        .post('/some/path/entity', {
+          param1: 'value1',
+          param2: 'value2',
+        })
+        .reply(200, { someReturnValue: 42 })
+
+      expect(yield post({
+        path: 'http://server.com/some/path/entity',
+        bodyJson: {
+          param1: 'value1',
+          param2: 'value2',
+        },
+      })).to.deep.equal({
+        someReturnValue: 42,
+      })
+
+      mock.done()
+    }))
+  })
 
   it('should throw an error on error status code', execute(function* test() {
     const mock = nock('http://server.com')
