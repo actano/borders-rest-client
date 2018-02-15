@@ -2,18 +2,35 @@
 import sinon from 'sinon'
 
 import { GET } from '../commands/get'
+import { POST } from '../commands/post'
 import { STUB_CALL } from '../test-commands/stub-call'
 
 export default () => {
-  const getStub = sinon.stub()
+  const stub = sinon.stub()
+
+  const stubRequest = (method, request, response) => {
+    stub.withArgs(sinon.match({
+      method: method.toLowerCase(),
+      ...request,
+    })).returns(response)
+  }
+
+  const getStubbedResponse = (method, request) => {
+    return stub({
+      method: method.toLowerCase(),
+      ...request,
+    })
+  }
 
   const backend = {
-    async [STUB_CALL]({ request, response }) {
-      getStub
-        .withArgs(sinon.match(request)).returns(response)
+    async [STUB_CALL]({ method, request, response }) {
+      stubRequest(method, request, response)
     },
     async [GET]({ request }) {
-      return getStub(request)
+      return getStubbedResponse('get', request)
+    },
+    async [POST]({ request }) {
+      return getStubbedResponse('post', request)
     },
   }
 
