@@ -10,6 +10,7 @@ export default () => {
         return await client({
           method: 'GET',
           uri: request.path,
+          headers: request.headers,
           json: true,
         })
       } catch (e) {

@@ -51,5 +51,23 @@ export default (createBackend) => {
     }
     throw new AssertionError('expected an error')
   }))
+
+  context('headers', () => {
+    it('should send specified header fields', execute(function* test() {
+      const mock = nock('http://server.com')
+        .get('/some/path/entity')
+        .matchHeader('someHeaderField', 'someHeaderValue')
+        .reply(200)
+
+      yield get({
+        path: 'http://server.com/some/path/entity',
+        headers: {
+          someHeaderField: 'someHeaderValue',
+        },
+      })
+
+      mock.done()
+    }))
+  })
 }
 
