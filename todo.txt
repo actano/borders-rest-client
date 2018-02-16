@@ -1,8 +1,0 @@
-- error handling
-- authentication
-
-- parameter
-- more methods/commands
-- header
-- cookies
-- redirects?!
