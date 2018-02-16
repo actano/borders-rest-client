@@ -4,7 +4,7 @@ import sinon from 'sinon'
 
 import stubBackend from '../src/test-backends/stub'
 import testBackend from '../src/spec/backend.spec'
-
+import expectThrow from '../src/spec/utils/expect-throw'
 import { get, post, del } from '../src/commands'
 import stubCall from '../src/test-commands/stub-call'
 
@@ -13,16 +13,6 @@ const { expect } = chai
 const execute = generatorFunction => () => {
   const context = new Context().use(stubBackend())
   return context.execute(generatorFunction())
-}
-
-function* expectThrow(generatorFunc, errorMessage) {
-  try {
-    yield* generatorFunc()
-  } catch (e) {
-    expect(e.message).to.equal(errorMessage)
-    return
-  }
-  expect.fail(null, errorMessage, 'Should throw an error')
 }
 
 describe('borders-rest-client/stub-backend', () => {
@@ -282,34 +272,44 @@ describe('borders-rest-client/stub-backend', () => {
       )
     }))
     it('should throw an error for mixed-case header', execute(function* test() {
-      yield* expectThrow(function* () {
-        yield stubCall(
-          'get',
-          {
-            path: '/some/path/entity',
-          },
-          {
-            body: 'stubbed response 1',
-            status: 200,
-            headers: {
-              Param1: 'value1',
+      yield* expectThrow(
+        function* () {
+          yield stubCall(
+            'get',
+            {
+              path: '/some/path/entity',
             },
-          },
-        )
-      }, 'The header "Param1" should be lower case')
+            {
+              body: 'stubbed response 1',
+              status: 200,
+              headers: {
+                Param1: 'value1',
+              },
+            },
+          )
+        },
+        (error) => {
+          expect(error.message).to.equal('The header "Param1" should be lower case')
+        },
+      )
     }))
     it('should throw an error for invalid properties in the response', execute(function* test() {
-      yield* expectThrow(function* () {
-        yield stubCall(
-          'get',
-          {
-            path: '/some/path/entity',
-          },
-          {
-            someProperty: 'some value',
-          },
-        )
-      }, 'The response property "someProperty" is not supported')
+      yield* expectThrow(
+        function* () {
+          yield stubCall(
+            'get',
+            {
+              path: '/some/path/entity',
+            },
+            {
+              someProperty: 'some value',
+            },
+          )
+        },
+        (error) => {
+          expect(error.message).to.equal('The response property "someProperty" is not supported')
+        },
+      )
     }))
   })
 })
