@@ -1,6 +1,6 @@
 {
   "name": "borders-rest-client",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Specification for system border rest-client",
   "author": "Actano GmbH (https://rplan.com/)",
   "license": "MIT",
@@ -13,7 +13,9 @@
   "files": [
     "src",
     "lib",
-    "spec.js"
+    "spec.js",
+    "test-backends.js",
+    "test-commands.js"
   ],
   "scripts": {
     "prepublishOnly": "npm run clean && npm run ci && babel src --out-dir lib",
