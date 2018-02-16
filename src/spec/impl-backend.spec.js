@@ -8,9 +8,11 @@ import querystring from 'querystring'
 import { del, get, post } from '../commands'
 import RestError from '../error/rest-error'
 
+import expectThrow from './utils/expect-throw'
+
 chai.use(chaiSubset)
 
-const { expect, AssertionError } = chai
+const { expect } = chai
 
 export default (createBackend) => {
   let backend
@@ -137,17 +139,18 @@ export default (createBackend) => {
       .get('/some/path/entity')
       .reply(500)
 
-    try {
-      yield get({
-        path: 'http://server.com/some/path/entity',
-      })
-    } catch (e) {
-      expect(e, e.toString()).to.be.instanceOf(RestError)
-      return
-    } finally {
-      mock.done()
-    }
-    throw new AssertionError('expected an error')
+    yield* expectThrow(
+      function* () {
+        yield get({
+          path: 'http://server.com/some/path/entity',
+        })
+      },
+      (err) => {
+        expect(err).to.be.instanceof(RestError)
+      },
+    )
+
+    mock.done()
   }))
 
   context('headers', () => {
