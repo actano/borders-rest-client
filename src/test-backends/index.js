@@ -1,2 +1,2 @@
 // eslint-disable-next-line import/prefer-default-export
-export { default as stubBackend } from './backends/stub'
+export { default as stubBackend } from './stub'

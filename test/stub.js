@@ -2,13 +2,12 @@ import Context from 'borders'
 import chai from 'chai'
 import sinon from 'sinon'
 
-import stubBackend from '../src/backends/stub'
+import stubBackend from '../src/test-backends/stub'
 import testBackend from '../src/spec/backend.spec'
 
 import { get, post, del } from '../src/commands'
 import stubCall from '../src/test-commands/stub-call'
 
-chai.config.truncateThreshold = 0
 const { expect } = chai
 
 const execute = generatorFunction => () => {
