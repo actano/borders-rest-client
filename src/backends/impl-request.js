@@ -1,6 +1,7 @@
 import client from 'request-promise'
 
 import RestError from '../error/rest-error'
+import RestStatusError from '../error/rest-status-error'
 import { POST } from '../commands/post'
 import { DELETE } from '../commands/delete'
 import { GET } from '../commands/get'
@@ -24,6 +25,9 @@ async function performRequest(method, request) {
       headers: response.headers,
     }
   } catch (e) {
+    if (e.statusCode) {
+      throw new RestStatusError(e.message, e.statusCode, e.response)
+    }
     throw new RestError(e)
   }
 }

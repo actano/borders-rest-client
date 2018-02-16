@@ -6,7 +6,7 @@ import nock from 'nock'
 import querystring from 'querystring'
 
 import { del, get, post } from '../commands'
-import RestError from '../error/rest-error'
+import { RestError, RestStatusError } from '../error'
 
 import expectThrow from './utils/expect-throw'
 
@@ -134,24 +134,65 @@ export default (createBackend) => {
     }))
   })
 
-  it('should throw an error on error status code', execute(function* test() {
-    const mock = nock('http://server.com')
-      .get('/some/path/entity')
-      .reply(500)
+  context('errors', () => {
+    context('when connection fails', () => {
+      it('should throw a status error', execute(function* test() {
+        yield* expectThrow(
+          function* () {
+            yield get({
+              path: 'http://server.com/some/path/entity',
+            })
+          },
+          (err) => {
+            expect(err).to.be.instanceof(RestError)
+          },
+        )
+      }))
+    })
+    context('when response status code indicates an error', () => {
+      it('should throw a status error', execute(function* test() {
+        const mock = nock('http://server.com')
+          .get('/some/path/entity')
+          .reply(400)
 
-    yield* expectThrow(
-      function* () {
-        yield get({
-          path: 'http://server.com/some/path/entity',
-        })
-      },
-      (err) => {
-        expect(err).to.be.instanceof(RestError)
-      },
-    )
+        yield* expectThrow(
+          function* () {
+            yield get({
+              path: 'http://server.com/some/path/entity',
+            })
+          },
+          (err) => {
+            expect(err).to.be.instanceof(RestStatusError)
+          },
+        )
 
-    mock.done()
-  }))
+        mock.done()
+      }))
+
+      it('should contain status code and response body', execute(function* test() {
+        const mock = nock('http://server.com')
+          .get('/some/path/entity')
+          .reply(400, { someProp: 'someValue' })
+
+        yield* expectThrow(
+          function* () {
+            yield get({
+              path: 'http://server.com/some/path/entity',
+            })
+          },
+          (err) => {
+            expect(err).to.be.have.property('statusCode', 400)
+            expect(err).to.be.have.property('response')
+            expect(err.response).to.be.have.deep.property('body', {
+              someProp: 'someValue',
+            })
+          },
+        )
+
+        mock.done()
+      }))
+    })
+  })
 
   context('headers', () => {
     it('should send specified header fields', execute(function* test() {
