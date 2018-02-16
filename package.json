@@ -1,6 +1,6 @@
 {
   "name": "borders-rest-client",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Specification for system border rest-client",
   "author": "Actano GmbH (https://rplan.com/)",
   "license": "MIT",
