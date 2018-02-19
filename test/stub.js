@@ -1,5 +1,6 @@
 import Context from 'borders'
 import chai from 'chai'
+import sinonChai from 'sinon-chai'
 import sinon from 'sinon'
 
 import stubBackend from '../src/test-backends/stub'
@@ -8,6 +9,7 @@ import expectThrow from '../src/spec/utils/expect-throw'
 import { get, post, del } from '../src/commands'
 import stubCall from '../src/test-commands/stub-call'
 
+chai.use(sinonChai)
 const { expect } = chai
 
 const execute = generatorFunction => () => {
@@ -310,6 +312,43 @@ describe('borders-rest-client/stub-backend', () => {
           expect(error.message).to.equal('The response property "someProperty" is not supported')
         },
       )
+    }))
+  })
+  context('expectations on stubs', () => {
+    it('should return working sinon stubs for stubbed rest calls', execute(function* test() {
+      const stub1 = yield stubCall(
+        'get',
+        {
+          path: 'http://server.com/some/path/entity',
+          bodyJson: { property: 'value1' },
+        },
+        {},
+      )
+
+      const stub2 = yield stubCall(
+        'get',
+        {
+          path: 'http://server.com/some/path/entity',
+          bodyJson: { property: 'value2' },
+        },
+        {},
+      )
+
+      yield get({
+        path: 'http://server.com/some/path/entity',
+        bodyJson: { property: 'value1' },
+      })
+      yield get({
+        path: 'http://server.com/some/path/entity',
+        bodyJson: { property: 'value2' },
+      })
+      yield get({
+        path: 'http://server.com/some/path/entity',
+        bodyJson: { property: 'value2' },
+      })
+
+      expect(stub1).to.have.callCount(1)
+      expect(stub2).to.have.callCount(2)
     }))
   })
 })

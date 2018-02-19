@@ -35,10 +35,13 @@ export default () => {
     validateHeaders(response)
     validateProperties(response)
 
-    stub.withArgs(sinon.match({
+    const callStub = stub.withArgs(sinon.match({
       method: method.toLowerCase(),
       ...request,
-    })).returns(response)
+    }))
+
+    callStub.returns(response)
+    return callStub
   }
 
   const getStubbedResponse = (method, request) =>
@@ -49,7 +52,7 @@ export default () => {
 
   const backend = {
     async [STUB_CALL]({ method, request, response }) {
-      stubRequest(method, request, response)
+      return stubRequest(method, request, response)
     },
     async [GET]({ request }) {
       return getStubbedResponse('get', request)
