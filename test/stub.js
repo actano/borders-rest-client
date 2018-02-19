@@ -8,6 +8,7 @@ import testBackend from '../src/spec/backend.spec'
 import expectThrow from '../src/spec/utils/expect-throw'
 import { get, post, del } from '../src/commands'
 import stubCall from '../src/test-commands/stub-call'
+import { RestStatusError } from '../src/error'
 
 chai.use(sinonChai)
 const { expect } = chai
@@ -395,6 +396,38 @@ describe('borders-rest-client/stub-backend', () => {
 
       expect(stub1).to.have.callCount(1)
       expect(stub2).to.have.callCount(2)
+    }))
+  })
+  context('stubbing status errors', () => {
+    it('should throw a rest error with response body and status code', execute(function* test() {
+      yield stubCall(
+        'get',
+        {
+          path: 'http://server.com/some/path/entity',
+        },
+        {
+          status: 400,
+          body: {
+            someProp: 'someValue',
+          },
+        },
+      )
+
+      yield* expectThrow(
+        function* () {
+          yield get({
+            path: 'http://server.com/some/path/entity',
+          })
+        },
+        (err) => {
+          expect(err).to.be.instanceof(RestStatusError)
+          expect(err).to.be.have.property('statusCode', 400)
+          expect(err).to.be.have.property('response')
+          expect(err.response).to.be.have.deep.property('body', {
+            someProp: 'someValue',
+          })
+        },
+      )
     }))
   })
 })

@@ -5,6 +5,7 @@ import { GET } from '../commands/get'
 import { POST } from '../commands/post'
 import { DELETE } from '../commands/delete'
 import { STUB_CALL } from '../test-commands/stub-call'
+import { RestStatusError } from '../error'
 
 const supportedResponseProperties = [
   'status', 'body', 'headers',
@@ -57,11 +58,18 @@ export default () => {
     return callStub
   }
 
-  const getStubbedResponse = (method, request) =>
-    stub({
+  const getStubbedResponse = (method, request) => {
+    const response = stub({
       method: method.toLowerCase(),
       ...request,
     })
+
+    if (response.status >= 400) {
+      throw new RestStatusError('stubbed rest error', response.status, response)
+    }
+
+    return response
+  }
 
   const backend = {
     async [STUB_CALL]({ method, request, response }) {
