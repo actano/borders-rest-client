@@ -10,6 +10,10 @@ const supportedResponseProperties = [
   'status', 'body', 'headers',
 ]
 
+const supportedRequestProperties = [
+  'path', 'query', 'headers', 'bodyJson', 'bodyUrlencoded',
+]
+
 function validateHeaders(response) {
   if (response.headers) {
     for (const headerKey of Object.keys(response.headers)) {
@@ -20,10 +24,18 @@ function validateHeaders(response) {
   }
 }
 
-function validateProperties(response) {
+function validateResponseProperties(response) {
   for (const responseProperty of Object.keys(response)) {
     if (!supportedResponseProperties.includes(responseProperty)) {
       throw new Error(`The response property "${responseProperty}" is not supported`)
+    }
+  }
+}
+
+function validateRequestProperties(request) {
+  for (const requestProperty of Object.keys(request)) {
+    if (!supportedRequestProperties.includes(requestProperty)) {
+      throw new Error(`The request property "${requestProperty}" is not supported`)
     }
   }
 }
@@ -33,7 +45,8 @@ export default () => {
 
   const stubRequest = (method, request, response) => {
     validateHeaders(response)
-    validateProperties(response)
+    validateResponseProperties(response)
+    validateRequestProperties(request)
 
     const callStub = stub.withArgs(sinon.match({
       method: method.toLowerCase(),

@@ -257,6 +257,52 @@ describe('borders-rest-client/stub-backend', () => {
     }))
   })
 
+  context('request format', () => {
+    it('should not throw an error for valid request object', execute(function* test() {
+      yield stubCall(
+        'get',
+        {
+          path: '/some/path/entity',
+          query: {
+            param1: 'value1',
+            param2: 'value2',
+          },
+          headers: {
+            someHeaderField: 'someHeaderValue',
+          },
+          bodyJson: {
+            param1: 'value1',
+            param2: 'value2',
+          },
+        },
+        {},
+      )
+    }))
+    it('should throw an error for invalid properties in the request', execute(function* test() {
+      yield* expectThrow(
+        function* () {
+          yield stubCall(
+            'get',
+            {
+              path: '/some/path/entity',
+              query: {
+                param1: 'value1',
+                param2: 'value2',
+              },
+              headers: {
+                someHeaderField: 'someHeaderValue',
+              },
+              someProperty: 'some value',
+            },
+            {},
+          )
+        },
+        (error) => {
+          expect(error.message).to.equal('The request property "someProperty" is not supported')
+        },
+      )
+    }))
+  })
   context('response format', () => {
     it('should not throw an error for valid response object', execute(function* test() {
       yield stubCall(
