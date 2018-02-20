@@ -1,1 +1,4 @@
-export default class RestError extends Error {}
+import { VError } from 'verror'
+
+export default class RestError extends VError {}
+

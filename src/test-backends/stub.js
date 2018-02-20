@@ -65,7 +65,7 @@ export default () => {
     })
 
     if (response.status >= 400) {
-      throw new RestStatusError('stubbed rest error', response.status, response)
+      throw new RestStatusError(undefined, response.status, response)
     }
 
     return response

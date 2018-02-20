@@ -26,9 +26,9 @@ async function performRequest(method, request) {
     }
   } catch (e) {
     if (e.statusCode) {
-      throw new RestStatusError(e.message, e.statusCode, e.response)
+      throw new RestStatusError(e, e.statusCode, e.response)
     }
-    throw new RestError(e)
+    throw new RestError(e, `Error performing request ${request.path}`)
   }
 }
 

@@ -1,3 +1,4 @@
+import { VError } from 'verror'
 import Context from 'borders'
 import chai from 'chai'
 import sinonChai from 'sinon-chai'
@@ -421,9 +422,10 @@ describe('borders-rest-client/stub-backend', () => {
         },
         (err) => {
           expect(err).to.be.instanceof(RestStatusError)
-          expect(err).to.be.have.property('statusCode', 400)
-          expect(err).to.be.have.property('response')
-          expect(err.response).to.be.have.deep.property('body', {
+          const errInfo = VError.info(err)
+          expect(errInfo).to.be.have.property('statusCode', 400)
+          expect(errInfo).to.be.have.property('response')
+          expect(errInfo.response).to.be.have.deep.property('body', {
             someProp: 'someValue',
           })
         },

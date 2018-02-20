@@ -4,6 +4,7 @@ import chai from 'chai'
 import chaiSubset from 'chai-subset'
 import nock from 'nock'
 import querystring from 'querystring'
+import { VError } from 'verror'
 
 import { del, get, post } from '../commands'
 import { RestError, RestStatusError } from '../error'
@@ -153,7 +154,7 @@ export default (createBackend) => {
       it('should throw a status error', execute(function* test() {
         const mock = nock('http://server.com')
           .get('/some/path/entity')
-          .reply(400)
+          .reply(400, { someErrorInfo: 'some error message' })
 
         yield* expectThrow(
           function* () {
@@ -181,9 +182,10 @@ export default (createBackend) => {
             })
           },
           (err) => {
-            expect(err).to.be.have.property('statusCode', 400)
-            expect(err).to.be.have.property('response')
-            expect(err.response).to.be.have.deep.property('body', {
+            const errInfo = VError.info(err)
+            expect(errInfo).to.be.have.property('statusCode', 400)
+            expect(errInfo).to.be.have.property('response')
+            expect(errInfo.response).to.be.have.deep.property('body', {
               someProp: 'someValue',
             })
           },
