@@ -41,6 +41,8 @@ function validateRequestProperties(request) {
   }
 }
 
+export const getRequestFromStubCall = stubCall => stubCall.args[0]
+
 export default () => {
   const stub = sinon.stub()
 

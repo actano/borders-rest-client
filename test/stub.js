@@ -4,6 +4,7 @@ import chai from 'chai'
 import sinonChai from 'sinon-chai'
 import sinon from 'sinon'
 
+import { getRequestFromStubCall } from '../src/test-backends'
 import stubBackend from '../src/test-backends/stub'
 import testBackend from '../src/spec/backend.spec'
 import expectThrow from '../src/spec/utils/expect-throw'
@@ -398,6 +399,34 @@ describe('borders-rest-client/stub-backend', () => {
       expect(stub1).to.have.callCount(1)
       expect(stub2).to.have.callCount(2)
     }))
+
+    describe('getRequestFromStubCall', () => {
+      it('should return full request of stub calls', execute(function* test() {
+        const stub = yield stubCall(
+          'get',
+          {
+            path: 'http://server.com/some/path/entity',
+            bodyJson: sinon.match.any,
+          },
+          {},
+        )
+
+        yield get({
+          path: 'http://server.com/some/path/entity',
+          bodyJson: { property: 'value1' },
+        })
+        yield get({
+          path: 'http://server.com/some/path/entity',
+          bodyJson: { property: 'value2' },
+        })
+
+        expect(getRequestFromStubCall(stub.lastCall)).to.deep.equal({
+          path: 'http://server.com/some/path/entity',
+          method: 'get',
+          bodyJson: { property: 'value2' },
+        })
+      }))
+    })
   })
   context('stubbing status errors', () => {
     it('should throw a rest error with response body and status code', execute(function* test() {
