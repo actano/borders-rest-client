@@ -10,7 +10,7 @@ import testBackend from '../src/spec/backend.spec'
 import expectThrow from '../src/spec/utils/expect-throw'
 import { get, post, del } from '../src/commands'
 import stubCall from '../src/test-commands/stub-call'
-import { RestStatusError } from '../src/error'
+import { RestError, RestStatusError } from '../src/error'
 
 chai.use(sinonChai)
 const { expect } = chai
@@ -426,7 +426,19 @@ describe('borders-rest-client/stub-backend', () => {
       expect(stub1).to.have.callCount(1)
       expect(stub2).to.have.callCount(2)
     }))
-
+    it('should throw an rest error if no response for a rest call is defined', execute(function* test() {
+      yield* expectThrow(
+        function* () {
+          yield get({
+            path: 'http://server.com/some/path/entity',
+          })
+        },
+        (err) => {
+          expect(err).to.be.instanceof(RestError)
+          expect(err.message).to.equal('No response defined for rest call "get: http://server.com/some/path/entity"')
+        },
+      )
+    }))
     describe('getRequestFromStubCall', () => {
       it('should return full request of stub calls', execute(function* test() {
         const stub = yield stubCall(

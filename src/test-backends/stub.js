@@ -5,7 +5,7 @@ import { GET } from '../commands/get'
 import { POST } from '../commands/post'
 import { DELETE } from '../commands/delete'
 import { STUB_CALL } from '../test-commands/stub-call'
-import { RestStatusError } from '../error'
+import { RestError, RestStatusError } from '../error'
 
 const supportedResponseProperties = [
   'status', 'body', 'headers',
@@ -68,7 +68,9 @@ export default () => {
       method: method.toLowerCase(),
       ...request,
     })
-
+    if (!response) {
+      throw new RestError(`No response defined for rest call "${method}: ${request.path}"`)
+    }
     if (response.status >= 400) {
       throw new RestStatusError(undefined, response.status, response)
     }
