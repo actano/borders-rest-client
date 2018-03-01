@@ -86,6 +86,20 @@ describe('borders-rest-client/stub-backend', () => {
     })
   }))
 
+  it('should response with status 200 by default', execute(function* test() {
+    yield stubCall(
+      'get',
+      {
+        path: '/some/path/entity',
+      },
+    )
+    expect(yield get({
+      path: '/some/path/entity',
+    })).to.deep.equal({
+      status: 200,
+    })
+  }))
+
   it('should stub response for a delete request', execute(function* test() {
     yield stubCall(
       'delete',
@@ -278,7 +292,6 @@ describe('borders-rest-client/stub-backend', () => {
             param2: 'value2',
           },
         },
-        {},
       )
     }))
     it('should throw an error for invalid properties in the request', execute(function* test() {
@@ -297,7 +310,6 @@ describe('borders-rest-client/stub-backend', () => {
               },
               someProperty: 'some value',
             },
-            {},
           )
         },
         (error) => {
@@ -353,12 +365,29 @@ describe('borders-rest-client/stub-backend', () => {
               path: '/some/path/entity',
             },
             {
+              status: 200,
               someProperty: 'some value',
             },
           )
         },
         (error) => {
           expect(error.message).to.equal('The response property "someProperty" is not supported')
+        },
+      )
+    }))
+    it('should throw an error with a comprehensible error message if response status is not specified ', execute(function* test() {
+      yield* expectThrow(
+        function* () {
+          yield stubCall(
+            'get',
+            {
+              path: '/some/path/entity',
+            },
+            {},
+          )
+        },
+        (error) => {
+          expect(error.message).to.equal('The response property "status" is required')
         },
       )
     }))
@@ -371,7 +400,6 @@ describe('borders-rest-client/stub-backend', () => {
           path: 'http://server.com/some/path/entity',
           bodyJson: { property: 'value1' },
         },
-        {},
       )
 
       const stub2 = yield stubCall(
@@ -380,7 +408,6 @@ describe('borders-rest-client/stub-backend', () => {
           path: 'http://server.com/some/path/entity',
           bodyJson: { property: 'value2' },
         },
-        {},
       )
 
       yield get({
@@ -408,7 +435,6 @@ describe('borders-rest-client/stub-backend', () => {
             path: 'http://server.com/some/path/entity',
             bodyJson: sinon.match.any,
           },
-          {},
         )
 
         yield get({

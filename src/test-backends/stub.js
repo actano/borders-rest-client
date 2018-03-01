@@ -26,6 +26,9 @@ function validateHeaders(response) {
 }
 
 function validateResponseProperties(response) {
+  if (!response || !response.status) {
+    throw new Error('The response property "status" is required')
+  }
   for (const responseProperty of Object.keys(response)) {
     if (!supportedResponseProperties.includes(responseProperty)) {
       throw new Error(`The response property "${responseProperty}" is not supported`)
@@ -46,9 +49,9 @@ export const getRequestFromStubCall = stubCall => stubCall.args[0]
 export default () => {
   const stub = sinon.stub()
 
-  const stubRequest = (method, request, response) => {
-    validateHeaders(response)
+  const stubRequest = (method, request, response = { status: 200 }) => {
     validateResponseProperties(response)
+    validateHeaders(response)
     validateRequestProperties(request)
 
     const callStub = stub.withArgs(sinon.match({
