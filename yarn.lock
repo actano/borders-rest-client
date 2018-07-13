@@ -674,8 +674,8 @@ bluebird@^3.5.0:
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
 
 borders@^1.3.0:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/borders/-/borders-1.7.1.tgz#222e9b51a5ab23daa3c3b32f8234286b05e94685"
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/borders/-/borders-1.7.2.tgz#9fd05b5663cef3f073255f88c8bdb16886ae7a88"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
