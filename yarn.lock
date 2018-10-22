@@ -755,9 +755,9 @@ bluebird@^3.5.0:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
 
-borders@^2.0.0-beta.1:
-  version "2.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/borders/-/borders-2.0.0-beta.1.tgz#1d8e61be7fd1018894f30062d468f1e2d990b9f6"
+borders@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/borders/-/borders-2.0.0.tgz#84d45e53b0b712b9fb6e6e1304e2f577a1eb5579"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
