@@ -31,7 +31,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.4.0",
     "babel-register": "^6.24.1",
-    "borders": "^2.0.0-beta.1",
+    "borders": "^2.0.0",
     "chai": "^4.0.2",
     "chai-subset": "^1.6.0",
     "eslint": "^5.0.1",
