@@ -28,7 +28,7 @@ export default (createBackend) => {
 
   beforeEach(() => {
     backend = createBackend()
-    sandbox = sinon.sandbox.create()
+    sandbox = sinon.createSandbox()
     sandbox.stub(backend, GET)
     sandbox.stub(backend, POST)
     sandbox.stub(backend, DELETE)
