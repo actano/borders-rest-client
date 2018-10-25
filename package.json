@@ -49,6 +49,6 @@
     "verror": "^1.10.0"
   },
   "peerDependencies": {
-    "borders": "^2.0.0-beta.1"
+    "borders": "^2.0.0"
   }
 }
