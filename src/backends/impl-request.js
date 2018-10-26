@@ -7,7 +7,12 @@ import { DELETE } from '../commands/delete'
 import { GET } from '../commands/get'
 
 async function performRequest(method, request) {
+  console.log("performRequest")
+  const json = !request.binary
+  if (request.binary) throw new Error('ERROR in performRequest')
+  // if (request.binary) throw 'ERROR in performRequest'
   try {
+    console.log('before client')
     const response = await client({
       method,
       uri: request.path,
@@ -15,9 +20,10 @@ async function performRequest(method, request) {
       form: request.bodyUrlencoded,
       body: request.bodyJson,
       qs: request.query,
-      json: true,
+      json,
       resolveWithFullResponse: true,
     })
+    console.log('after await client')
 
     return {
       body: response.body,

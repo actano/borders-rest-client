@@ -12,23 +12,30 @@ import { RestError, RestStatusError } from '../error'
 import expectThrow from './utils/expect-throw'
 
 chai.use(chaiSubset)
-
 const { expect } = chai
 
 export default (createBackend) => {
   let backend
+  let mock
 
-  const execute = generatorFunction => () => {
+  const execute = generatorFunction => async () => {
+    backend = createBackend()
     const context = new Context().use(backend)
-    return context.execute(generatorFunction())
+    return await context.execute(generatorFunction())
   }
 
   beforeEach(() => {
-    backend = createBackend()
+    console.log('before')
+    // mock = nock('http://server.com')
+  })
+  afterEach(() => {
+    console.log('after')
+    // nock.restore()
+    // nock.cleanAll()
   })
 
   it('should perform a get request', execute(function* test() {
-    const mock = nock('http://server.com')
+    mock = nock('http://server.com')
       .get('/some/path/entity')
       .reply(200, { someReturnValue: 42 })
 
@@ -90,6 +97,50 @@ export default (createBackend) => {
 
       mock.done()
     }))
+    beforeEach(() => {
+      // const someBinary = Buffer.from([1, -1, 120])
+      // mock = nock('http://server.com')
+      // mock
+      //   .get('/some/path/entity')
+      //   .reply(200, someBinary, {
+      //     'content-type': 'application/pdf',
+      //   })
+    })
+
+    context('binary response', () => {
+      const test2 = binary => function* () {
+        const someBinary = Buffer.from([1, -1, 120])
+        mock = nock('http://server.com')
+        // mock.done()
+        mock
+          .get('/some/path/entity')
+          .reply(200, someBinary, {
+            'content-type': 'application/pdf',
+          })
+        // mock
+        //   .get('/some/path/entity')
+        //   .reply(200, someBinary, {
+        //     'content-type': 'application/pdf',
+        //   })
+
+        console.log('before yield get')
+        const res = yield get({
+          path: 'http://server.com/some/path/entity',
+          binary,
+        })
+        mock.done()
+        console.log('after yield get')
+        expect(res).to.containSubset({
+          status: 200,
+          body: someBinary.toString(),
+          headers: {
+            'content-type': 'application/pdf',
+          },
+        })
+      }
+      it('should return status, headers and response body', execute(test2(true)))
+      it('FALSE should return status, headers and response body', execute(test2(false)))
+    })
   })
 
   context('encodings', () => {
