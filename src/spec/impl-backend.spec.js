@@ -90,6 +90,30 @@ export default (createBackend) => {
 
       mock.done()
     }))
+    context('when response contains binary data', () => {
+      it.only('should return status, headers and response body', execute(function* test() {
+        const binaryString = JSON.stringify({ a: 1 })
+        const mock = nock('http://test-server.com')
+          .post('/foo/bar')
+          .reply(200, binaryString, {
+            headerParam1: 'headerValue1',
+          })
+
+        expect(yield post({
+          path: 'http://test-server.com/foo/bar',
+          binaryResponse: true,
+        })).to.containSubset({
+          status: 200,
+          headers: {
+            // header keys will converted to lower case
+            headerparam1: 'headerValue1',
+          },
+          body: Buffer.from(binaryString),
+        })
+
+        mock.done()
+      }))
+    })
   })
 
   context('encodings', () => {
