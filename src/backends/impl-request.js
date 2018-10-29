@@ -8,16 +8,27 @@ import { GET } from '../commands/get'
 
 async function performRequest(method, request) {
   try {
-    const response = await client({
+    const req = {
       method,
       uri: request.path,
       headers: request.headers,
       form: request.bodyUrlencoded,
-      body: request.bodyJson,
       qs: request.query,
-      json: true,
       resolveWithFullResponse: true,
-    })
+    }
+    if (request.binaryResponse) {
+      req.encoding = null
+      req.json = false
+      req.body = JSON.stringify(request.body)
+      req.headers = {
+        ...req.headers,
+        'Content-type': 'application/json; charset=utf-8',
+      }
+    } else {
+      req.json = true
+      req.body = request.bodyJson
+    }
+    const response = await client(req)
 
     return {
       body: response.body,
