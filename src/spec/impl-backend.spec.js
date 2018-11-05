@@ -91,7 +91,7 @@ export default (createBackend) => {
       mock.done()
     }))
     context('when response contains binary data', () => {
-      it.only('should return status, headers and response body', execute(function* test() {
+      it('should return status, headers and response body', execute(function* test() {
         const binaryString = JSON.stringify({ a: 1 })
         const mock = nock('http://test-server.com')
           .post('/foo/bar')
