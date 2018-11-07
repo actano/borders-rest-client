@@ -93,8 +93,9 @@ export default (createBackend) => {
     context('when response contains binary data', () => {
       it('should return status, headers and response body', execute(function* test() {
         const binaryString = JSON.stringify({ a: 1 })
+        const postParam = { key: 'value' }
         const mock = nock('http://test-server.com')
-          .post('/foo/bar')
+          .post('/foo/bar', JSON.stringify(postParam))
           .reply(200, binaryString, {
             headerParam1: 'headerValue1',
           })
@@ -102,6 +103,7 @@ export default (createBackend) => {
         expect(yield post({
           path: 'http://test-server.com/foo/bar',
           binaryResponse: true,
+          bodyJson: postParam,
         })).to.containSubset({
           status: 200,
           headers: {

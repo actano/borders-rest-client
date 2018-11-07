@@ -19,7 +19,7 @@ async function performRequest(method, request) {
     if (request.binaryResponse) {
       req.encoding = null
       req.json = false
-      req.body = JSON.stringify(request.body)
+      req.body = JSON.stringify(request.bodyJson)
       req.headers = {
         ...req.headers,
         'Content-type': 'application/json; charset=utf-8',
