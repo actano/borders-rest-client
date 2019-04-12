@@ -5,6 +5,7 @@ import RestStatusError from '../error/rest-status-error'
 import { POST } from '../commands/post'
 import { DELETE } from '../commands/delete'
 import { GET } from '../commands/get'
+import { PUT } from '../commands/put'
 
 async function performRequest(method, request) {
   try {
@@ -53,6 +54,9 @@ export default () => {
     },
     async [DELETE]({ request }) {
       return performRequest('DELETE', request)
+    },
+    async [PUT]({ request }) {
+      return performRequest('PUT', request)
     },
   }
 

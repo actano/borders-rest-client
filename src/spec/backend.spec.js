@@ -9,6 +9,8 @@ import {
   GET,
   post,
   POST,
+  put,
+  PUT,
   del,
   DELETE,
 } from '../commands'
@@ -32,6 +34,7 @@ export default (createBackend) => {
     sandbox.stub(backend, GET)
     sandbox.stub(backend, POST)
     sandbox.stub(backend, DELETE)
+    sandbox.stub(backend, PUT)
   })
 
   afterEach(() => {
@@ -68,6 +71,18 @@ export default (createBackend) => {
     })
 
     expect(backend[DELETE]).to.have.been.calledWith({
+      request: {
+        path: '/some/path/entity',
+      },
+    })
+  }))
+
+  it('should handle "PUT" command', execute(function* test() {
+    yield put({
+      path: '/some/path/entity',
+    })
+
+    expect(backend[PUT]).to.have.been.calledWith({
       request: {
         path: '/some/path/entity',
       },
