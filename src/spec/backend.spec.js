@@ -9,10 +9,12 @@ import {
   GET,
   post,
   POST,
-  put,
-  PUT,
   del,
   DELETE,
+  put,
+  PUT,
+  patch,
+  PATCH,
 } from '../commands'
 
 chai.use(sinonChai)
@@ -35,6 +37,7 @@ export default (createBackend) => {
     sandbox.stub(backend, POST)
     sandbox.stub(backend, DELETE)
     sandbox.stub(backend, PUT)
+    sandbox.stub(backend, PATCH)
   })
 
   afterEach(() => {
@@ -83,6 +86,18 @@ export default (createBackend) => {
     })
 
     expect(backend[PUT]).to.have.been.calledWith({
+      request: {
+        path: '/some/path/entity',
+      },
+    })
+  }))
+
+  it('should handle "PATCH" command', execute(function* test() {
+    yield patch({
+      path: '/some/path/entity',
+    })
+
+    expect(backend[PATCH]).to.have.been.calledWith({
       request: {
         path: '/some/path/entity',
       },

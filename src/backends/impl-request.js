@@ -2,10 +2,11 @@ import client from 'request-promise'
 
 import RestError from '../error/rest-error'
 import RestStatusError from '../error/rest-status-error'
+import { GET } from '../commands/get'
 import { POST } from '../commands/post'
 import { DELETE } from '../commands/delete'
-import { GET } from '../commands/get'
 import { PUT } from '../commands/put'
+import { PATCH } from '../commands/patch'
 
 async function performRequest(method, request) {
   try {
@@ -57,6 +58,9 @@ export default () => {
     },
     async [PUT]({ request }) {
       return performRequest('PUT', request)
+    },
+    async [PATCH]({ request }) {
+      return performRequest('PATCH', request)
     },
   }
 

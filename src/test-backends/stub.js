@@ -3,8 +3,9 @@ import sinon from 'sinon'
 
 import { GET } from '../commands/get'
 import { POST } from '../commands/post'
-import { PUT } from '../commands/put'
 import { DELETE } from '../commands/delete'
+import { PUT } from '../commands/put'
+import { PATCH } from '../commands/patch'
 import { STUB_CALL } from '../test-commands/stub-call'
 import { RestError, RestStatusError } from '../error'
 
@@ -89,11 +90,14 @@ export default () => {
     async [POST]({ request }) {
       return getStubbedResponse('post', request)
     },
+    async [DELETE]({ request }) {
+      return getStubbedResponse('delete', request)
+    },
     async [PUT]({ request }) {
       return getStubbedResponse('put', request)
     },
-    async [DELETE]({ request }) {
-      return getStubbedResponse('delete', request)
+    async [PATCH]({ request }) {
+      return getStubbedResponse('patch', request)
     },
   }
 
